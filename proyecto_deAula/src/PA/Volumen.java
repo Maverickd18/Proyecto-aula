@@ -4,15 +4,78 @@
  */
 package PA;
 
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author HP
  */
 public class Volumen extends javax.swing.JPanel {
+private double convertirVolumen(String unidadEntrada, String unidadSalida, double volumen) {
+    double resultado;
 
+    if (unidadEntrada.equals(unidadSalida)) {
+        resultado = volumen; // Misma unidad de entrada y salida, no es necesario convertir.
+    } else {
+        resultado = switch (unidadEntrada) {
+    
+          case "Litros" -> switch (unidadSalida) {
+          case "Mililitros" -> volumen * 1000;
+          case "Galones" -> volumen * 0.264172;
+          case "Metros cúbicos" -> volumen * 0.001;
+          case "Centimetros cúbicos" -> volumen * 1000;
+          
+ // Agrega otros casos para las demás unidades de salida
+                default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+                 };
+               case "Mililitros" -> switch (unidadSalida) {
+          case "Litros" -> volumen / 1000;
+          case "Galones" ->  volumen / 0.000264172 ;
+          case "Metros cúbicos" ->  volumen / 0.000001;
+          case "Centimetros cúbicos" ->  volumen ;
          
                
+                    
+                    default -> 0.0;
+              };
+                   case "Galones" -> switch (unidadSalida) {
+          case "Litros" -> volumen * 3.78541;
+          case "Mililitros" -> volumen * 3785.41;
+          case "Metros cúbicos" -> volumen * 0.00378541 ;
+          case "Centimetros cúbicos" -> volumen * 3785.41 ;
+          
+ 
+   
+                    default -> 0.0;
+                        
+              };
+                    case "Metros cúbicos" -> switch (unidadSalida) {
+          case "Litros" -> volumen * 1000;
+          case "Mililitros" ->  volumen * 1000000 ;
+          case "Galones" -> volumen * 264.172;
+          case "Centimetros cúbicos" -> volumen* 1000000;
+                       
+              
+                     default -> 0.0;
+              };
+                    case "Centimetros cúbicos" -> switch (unidadSalida) {
+          case "Litros" -> volumen * 0.001;
+          case "Mililitros" ->  volumen  ;
+          case "Galones" -> volumen * 0.000264172;
+          case "Metros cúbicos" -> volumen * 0.000001;
+              
+              
+             default ->0.0;
+        };
+                            
+         default ->0.0;
+         
+         };
+             
+    
+          }
+      return resultado;         
+         }       
                         
     public Volumen() {
         initComponents();
@@ -175,6 +238,35 @@ public class Volumen extends javax.swing.JPanel {
     }//GEN-LAST:event_comboB2ActionPerformed
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+        // Obtén la unidad de entrada seleccionada
+        String unidadEntrada = (String) comboB1.getSelectedItem();
+
+        String inputText = R1.getText().trim(); // Obtén el texto del JTextField y elimina espacios en blanco
+
+        if (inputText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingresa un valor válido.", "VALOR VACÍO", JOptionPane.ERROR_MESSAGE);
+        } else {
+            double longitud = Double.parseDouble(inputText);
+
+            // Obtén la unidad de salida seleccionada
+            String unidadSalida = (String) comboB2.getSelectedItem();
+
+            if (unidadEntrada.equals(unidadSalida)) {
+                JOptionPane.showMessageDialog(null, "Elige una unidad diferente.", "UNIDAD IGUAL", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Realizar la conversión de longitud según las unidades seleccionadas
+                double resultado = convertirVolumen(unidadEntrada, unidadSalida, longitud);
+
+                String resultadoFormateado = esNumeroEntero(resultado) ? String.format("%,.0f", resultado) : String.format("%,.3f", resultado);
+
+                // Muestra el resultado en un JLabel o en otro componente de tu ventana.
+                RR1.setText("" + resultadoFormateado);
+            }
+        }
+        }
+        // Método para verificar si un número es entero
+        private boolean esNumeroEntero(double numero) {
+            return numero % 1 == 0;
 
     }//GEN-LAST:event_botonActionPerformed
 

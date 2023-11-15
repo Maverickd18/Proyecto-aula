@@ -13,8 +13,77 @@ import javax.swing.JOptionPane;
 public class Masa extends javax.swing.JPanel {
 
     
-       
+    private double convertirMasa(String unidadEntrada, String unidadSalida, double masa) {
+    double resultado;
+
+    if (unidadEntrada.equals(unidadSalida)) {
+        resultado = masa; // Misma unidad de entrada y salida, no es necesario convertir.
+    } else {
+         resultado = switch (unidadEntrada) {
     
+          case "Kilogramos" -> switch (unidadSalida) {
+          case "Gramos" -> masa * 1000;
+          case "Miligramos" ->  masa * 1_000_000;
+          case "Onzas" -> masa * 35.274;
+          case "Toneladas" -> masa * 0.001;
+          case "Libras" -> masa * 2.20462;
+              
+              
+                 default -> 0.0;
+          };      
+         
+        case "Gramos" -> switch (unidadSalida) {
+          case "Kilogramos" -> masa * 0.001;
+          case "Miligramos" ->  masa *1000 ;
+          case "Onzas" -> masa * 0.035274;
+          case "Toneladas" -> masa * 0.000001;
+          case "Libras" -> masa * 0.00220462;
+               
+                    
+                    default -> 0.0;
+              };
+                   case "Miligramos" -> switch (unidadSalida) {
+          case "Kilogramos" -> masa * 0.000001;
+          case "Gramos" ->  masa *0.001 ;
+          case "Onzas" -> masa *  0.000035274;
+          case "Toneladas" -> masa * 0.000000001;
+          case "Libras" -> masa * 0.00000220462;
+ 
+   
+                    default -> 0.0;
+                        
+              };
+                    case "Onzas" -> switch (unidadSalida) {
+          case "Kilogramos" -> masa *  0.0283495;
+          case "Gramos" ->  masa * 28.3495;
+          case "Miligramos" -> masa *   28_349.5;
+          case "Toneladas" -> masa * 0.0000283495;
+          case "Libras" -> masa *  0.0625;
+                       
+              
+                     default -> 0.0;
+              };
+                    case "Toneladas" -> switch (unidadSalida) {
+          case "Kilogramos" -> masa * 1000;
+          case "Gramos" ->  masa * 1_000_000 ;
+          case "Miligramos" -> masa *   1_000_000_000;
+          case "Onzas" -> masa * 35_273.96;
+          case "Libras" -> masa *  2204.62;
+              
+              
+                    default ->0.0;
+        };
+                         
+                    
+          
+         
+         
+                            default ->0.0;
+         
+         };
+    }
+      return resultado;     
+    }
    
     
     public Masa() {
@@ -320,8 +389,32 @@ public class Masa extends javax.swing.JPanel {
 
     private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
 
+        // Obtén la unidad de entrada seleccionada
+    String unidadEntrada = (String) comboB3.getSelectedItem();
+String inputText = R2.getText().trim(); // Obtén el texto del JTextField y elimina espacios en blanco
 
+if (inputText.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Ingresa un valor válido.", "VALOR VACÍO", JOptionPane.ERROR_MESSAGE);
+} else {
+    double masa = Double.parseDouble(inputText);
+
+    String unidadSalida = (String) comboB4.getSelectedItem();
     
+    if (unidadEntrada.equals(unidadSalida)) {
+        JOptionPane.showMessageDialog(null, "Elige una unidad diferente.", "UNIDAD IGUAL", JOptionPane.ERROR_MESSAGE);
+    } else {
+        double resultado = convertirMasa(unidadEntrada, unidadSalida, masa);
+
+        String resultadoFormateado = esNumeroEntero(resultado) ? String.format("%,.0f", resultado) : String.format("%,.3f", resultado);
+
+        RR2.setText("" + resultadoFormateado);
+    }
+}
+    }
+// Método para verificar si un número es entero
+private boolean esNumeroEntero(double numero) {
+    return numero % 1 == 0;
+
 
         
     }//GEN-LAST:event_boton1ActionPerformed
