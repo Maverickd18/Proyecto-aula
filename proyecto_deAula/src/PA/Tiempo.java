@@ -4,12 +4,170 @@
  */
 package PA;
 
+import javax.swing.JOptionPane;
   
    
 public class Tiempo extends javax.swing.JPanel {
 
+     private double convertirTiempo(String unidadEntrada, String unidadSalida, double tiempo) {
+    double resultado;
+
+    if (unidadEntrada.equals(unidadSalida)) {
+        resultado = tiempo; // Misma unidad de entrada y salida, no es necesario convertir.
+    } else {
+         resultado = switch (unidadEntrada) {
+
+
+case "Siglos" -> switch (unidadSalida) {
+          case "Decadas" -> tiempo*10;
+          case "Años" -> tiempo*100 ;
+          case "Meses" -> tiempo*1200 ;
+          case "Semanas" -> tiempo*5214.29 ;
+          case "Dias" -> tiempo*36500 ;
+          case "Horas" -> tiempo*876000 ;
+          case "Minutos" -> tiempo*52560000 ;
+          case "Segundos" -> tiempo*3153600000L ;
+          case "Milisegundos" -> tiempo*3.154e+12;
+        
+ // Agrega otros casos para las demás unidades de salida
+                default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+                 };
+               
+          case "Decadas" -> switch (unidadSalida) {
+          case "Siglos" -> tiempo/ 10;
+          case "Años" -> tiempo* 10 ;
+          case "Meses" -> tiempo* 120 ;
+          case "Semanas" -> tiempo* 521.429 ;
+          case "Dias" -> tiempo* 3650 ;
+          case "Horas" -> tiempo* 87600 ;
+          case "Minutos" -> tiempo* 525600 ;
+          case "Segundos" -> tiempo* 31536000L ;
+          case "Milisegundos" -> tiempo* 31536000000L ;
+         
+               
+                    
+                    default -> 0.0;
+              };
+                  case "Años" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo / 100 ;
+          case "Decadas" ->tiempo / 10  ;
+          case "Meses" -> tiempo * 12 ;
+          case "Semanas" ->tiempo * 52.143  ;
+          case "Dias" -> tiempo* 365 ;
+          case "Horas" -> tiempo* 8760 ;
+          case "Minutos" -> tiempo* 525600 ;
+          case "Segundos" -> tiempo* 31536000L ;
+          case "Milisegundos" -> tiempo* 31536000000L ;
+          
+ 
+   
+                    default -> 0.0;
+                        
+              };
+                 case "Meses" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo / 1200 ;
+          case "Decadas" ->tiempo / 120  ;
+          case "Años" -> tiempo / 12 ;
+          case "Semanas" ->tiempo * 4.34524  ;
+          case "Dias" -> tiempo* 30.4167 ;
+          case "Horas" -> tiempo* 730.001 ;
+          case "Minutos" -> tiempo * 43800.1 ;
+          case "Segundos" -> tiempo* 2628000 ;
+          case "Milisegundos" -> tiempo* 2628000000L ;
+              
+                     default -> 0.0;
+              };
+                       case "Semanas" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo / 5214.29 ;
+          case "Decadas" ->tiempo/ 521.429 ;
+          case "Años" -> tiempo/ 52.143    ;
+          case "Meses" ->tiempo/ 4.34524   ;
+          case "Dias" -> tiempo* 7 ;
+          case "Horas" -> tiempo*168 ;
+          case "Minutos" -> tiempo * 10080  ;
+          case "Segundos" -> tiempo* 604800 ;
+          case "Milisegundos" -> tiempo * 604800000L;
+              
+              
+                    default ->0.0;
+        };
+                       case "Dias" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo / 36500 ;
+          case "Decadas" ->tiempo / 3650;
+          case "Años" -> tiempo /365   ;
+          case "Meses" ->tiempo/ 30.4167   ;
+          case "Semanas" -> tiempo/ 7 ;
+          case "Horas" -> tiempo* 24 ;
+          case "Minutos" -> tiempo  * 1440 ;
+          case "Segundos" -> tiempo * 86400;
+          case "Milisegundos" -> tiempo* 86400000L ; 
+                        
+                    default ->0.0;
+       
+        };
+                           case "Horas" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo/ 876000  ;
+          case "Decadas" ->tiempo/87600 ;
+          case "Años" -> tiempo/8760   ;
+          case "Meses" ->tiempo/ 730.001   ;
+          case "Semanas" -> tiempo/ 168 ;
+          case "Dias" -> tiempo/ 24 ;
+          case "Minutos" -> tiempo *60  ;
+          case "Segundos" -> tiempo*3600 ;
+          case "Milisegundos" -> tiempo * 3600000L ; 
+                    default ->0.0;
+        };
+                  case"Minutos" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo / 52560000  ;
+          case "Decadas" ->tiempo/525600 ;
+          case "Años" -> tiempo/525600   ;
+          case "Meses" ->tiempo/43800.1   ;
+          case "Semanas" -> tiempo/10080 ;
+          case "Dias" -> tiempo/1440 ;
+          case "Horas" -> tiempo/60   ;
+          case "Segundos" -> tiempo*60 ;
+          case "Milisegundos" -> tiempo*60000L  ;              
+                               
+                           default ->0.0; 
+    };
+                    case"Segundos" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo / 3153600000L  ;
+          case "Decadas" ->tiempo/ 31536000L ;
+          case "Años" -> tiempo/ 31536000L   ;
+          case "Meses" ->tiempo  / 2628000  ;
+          case "Semanas" -> tiempo / 604800 ;
+          case "Dias" -> tiempo / 86400;
+          case "Horas" -> tiempo  /3600 ;
+          case "Minutos" -> tiempo /60;
+          case "Milisegundos" -> tiempo*1000  ; 
+                      
+                  default ->0.0;
+        };
+                case"Milisegundos" -> switch (unidadSalida) {
+          case "Siglos" ->tiempo/ 3153600000000L   ;
+          case "Decadas" ->tiempo/ 31536000000L ;
+          case "Años" -> tiempo / 31536000000L  ;
+          case "Meses" ->tiempo   / 2628000000L ;
+          case "Semanas" -> tiempo  / 604800000L;
+          case "Dias" -> tiempo/ 86400000L ;
+          case "Horas" -> tiempo  / 3600000L ;
+          case "Minutos" -> tiempo  / 60000L;
+          case "Segundos" -> tiempo / 1000 ; 
+                      
+                        default ->0.0;
+        };
+                         
+                    
+          
+         
+         
+                            default ->0.0;
+         
+         };
+    }
+      return resultado;     
+}
     
-  
     public Tiempo() {
         initComponents();
     }
@@ -187,7 +345,35 @@ public class Tiempo extends javax.swing.JPanel {
     }//GEN-LAST:event_comboB2ActionPerformed
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-     
+        // Obtén la unidad de entrada seleccionada
+        String unidadEntrada = (String) comboB1.getSelectedItem();
+
+        String inputText = R1.getText().trim(); // Obtén el texto del JTextField y elimina espacios en blanco
+
+        if (inputText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingresa un valor válido.", "VALOR VACÍO", JOptionPane.ERROR_MESSAGE);
+        } else {
+            double longitud = Double.parseDouble(inputText);
+
+            // Obtén la unidad de salida seleccionada
+            String unidadSalida = (String) comboB2.getSelectedItem();
+
+            if (unidadEntrada.equals(unidadSalida)) {
+                JOptionPane.showMessageDialog(null, "Elige una unidad diferente.", "UNIDAD IGUAL", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Realizar la conversión de longitud según las unidades seleccionadas
+                double resultado = convertirTiempo(unidadEntrada, unidadSalida, longitud);
+
+                String resultadoFormateado = esNumeroEntero(resultado) ? String.format("%,.0f", resultado) : String.format("%,.3f", resultado);
+
+                // Muestra el resultado en un JLabel o en otro componente de tu ventana.
+                RR1.setText("" + resultadoFormateado);
+            }
+        }
+        }
+        // Método para verificar si un número es entero
+        private boolean esNumeroEntero(double numero) {
+            return numero % 1 == 0;
     }//GEN-LAST:event_botonActionPerformed
 
 

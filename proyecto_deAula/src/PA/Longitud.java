@@ -11,7 +11,94 @@ import javax.swing.JOptionPane;
  * @author HP
  */
 public class Longitud extends javax.swing.JPanel {
+private double convertirLongitud(String unidadEntrada, String unidadSalida, double longitud) {
+    double resultado;
 
+    if (unidadEntrada.equals(unidadSalida)) {
+        resultado = longitud; // Misma unidad de entrada y salida, no es necesario convertir.
+    } else {
+        resultado = switch (unidadEntrada) {
+            case "Metros" -> switch (unidadSalida) {
+                case "Centímetros" -> longitud * 100;
+                case "Kilómetros" -> longitud / 1000;
+                case "Yardas" -> longitud * 1.09361;
+                case "Pie" -> longitud * 3.281;
+                case "Pulgadas" -> longitud * 39.3701;
+                case "Millas" -> longitud * 0.000621371;
+                                            
+                    
+                // Agrega otros casos para las demás unidades de salida
+                default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+            };
+            case "Centímetros" -> switch (unidadSalida) {
+                case "Metros" -> longitud / 100;
+                case "Kilómetros" -> longitud / 100000;
+                case "Yardas" -> longitud * 0.0109361;
+                case "Pie" -> longitud * 0.0328084;
+                case "Pulgadas" -> longitud * 0.393701;
+                case "Millas" -> longitud * 0.0000062137;
+                    
+                    default -> 0.0;
+              };
+            case "Kilómetros" -> switch (unidadSalida) {
+                case "Metros" -> longitud * 1000;
+                case "Centímetros" -> longitud * 100000;
+                case "Yardas" -> longitud * 1093.61;
+                case "Pie" -> longitud * 3280.84;
+                case "Pulgadas" -> longitud * 39370.1;
+                case "Millas" -> longitud * 0.621371;
+                  
+                 
+                // Agrega otros casos para las demás unidades de salida
+                default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+                    
+             };
+            case "Yardas" -> switch (unidadSalida) {
+                case "Metros" -> longitud / 1.09361;
+                case "Centímetros" -> longitud / 0.0109361;
+                case "Kilómetros" -> longitud / 1093.61;
+                case "Pie" -> longitud * 3;
+                case "Pulgadas" -> longitud * 36;
+                case "Millas" -> longitud / 1760;
+                          // Agrega otros casos para las demás unidades de salida
+                default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+            };      
+                case "Pie" -> switch (unidadSalida) {
+                case "Metros" -> longitud / 3.28084;
+               case "Centímetros" -> longitud / 0.0328084;
+                case "Kilómetros" -> longitud / 3280.84;
+                case "Yardas" -> longitud / 3;
+                case "Pulgadas" -> longitud * 12;  // Pies a Pulgadas
+                case "Millas" -> longitud / 5280;  // Pies a Millas
+                 default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+                };
+                 case "Pulgadas" -> switch (unidadSalida) {
+                  case "Metros" -> longitud / 39.3701;
+                   case "Centímetros" -> longitud / 0.393701;
+                   case "Kilómetros" -> longitud / 39370.1;
+                  case "Yardas" -> longitud / 36;  // Pulgadas a Yardas
+                     case "Pie" -> longitud / 12;  // Pulgadas a Pies
+                    case "Millas" -> longitud / 63360;  // Pulgadas a Millas
+                         default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+                   };
+                        case "Millas" -> switch (unidadSalida) {
+                      case "Metros" -> longitud / 0.000621371;
+                    case "Centímetros" -> longitud / 0.0000062137;
+                     case "Kilómetros" -> longitud / 0.621371;
+                     case "Yardas" -> longitud * 1760;  // Millas a Yardas
+                      case "Pie" -> longitud * 5280;  // Millas a Pies
+                    case "Pulgadas" -> longitud * 63360;  // Millas a Pulgadas
+                      default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+};
+     
+                // Agrega otros casos para las demás unidades de salida
+                default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+            };
+         
+    }
+
+    return resultado;
+}
     public Longitud() {
         initComponents();
     }
@@ -173,6 +260,35 @@ public class Longitud extends javax.swing.JPanel {
     }//GEN-LAST:event_comboB2ActionPerformed
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+// Obtén la unidad de entrada seleccionada
+String unidadEntrada = (String) comboB1.getSelectedItem();
+
+String inputText = R1.getText().trim(); // Obtén el texto del JTextField y elimina espacios en blanco
+
+if (inputText.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Ingresa un valor válido.", "VALOR VACÍO", JOptionPane.ERROR_MESSAGE);
+} else {
+    double longitud = Double.parseDouble(inputText);
+
+    // Obtén la unidad de salida seleccionada
+    String unidadSalida = (String) comboB2.getSelectedItem();
+
+    if (unidadEntrada.equals(unidadSalida)) {
+        JOptionPane.showMessageDialog(null, "Elige una unidad diferente.", "UNIDAD IGUAL", JOptionPane.ERROR_MESSAGE);
+    } else {
+        // Realizar la conversión de longitud según las unidades seleccionadas
+        double resultado = convertirLongitud(unidadEntrada, unidadSalida, longitud);
+
+        String resultadoFormateado = esNumeroEntero(resultado) ? String.format("%,.0f", resultado) : String.format("%,.3f", resultado);
+
+        // Muestra el resultado en un JLabel o en otro componente de tu ventana.
+        RR1.setText("" + resultadoFormateado);
+    }
+}
+    }
+// Método para verificar si un número es entero
+private boolean esNumeroEntero(double numero) {
+    return numero % 1 == 0;
 
 
 

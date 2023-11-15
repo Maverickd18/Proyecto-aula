@@ -4,15 +4,51 @@
  */
 package PA;
 
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author HP
  */
 public class Temperatura extends javax.swing.JPanel {
+ private double convertirTemperatura(String unidadEntrada, String unidadSalida, double temperatura) {
+    double resultado;
 
-        
- 
+    if (unidadEntrada.equals(unidadSalida)) {
+        resultado = temperatura; // Misma unidad de entrada y salida, no es necesario convertir.
+    } else {
+        resultado = switch (unidadEntrada) {
+    
+          case "Kelvin" -> switch (unidadSalida) {
+          case "Celsius" -> temperatura -273.15;
+          case "Fahrenheit" ->  temperatura - 273.15 * 9/5 + 32;
+          
+ // Agrega otros casos para las demás unidades de salida
+                default -> 0.0; // Valor predeterminado en caso de una unidad de salida no válida
+                 };
+               case "Celsius" -> switch (unidadSalida) {
+          case "Kelvin" -> temperatura + 273.15;
+          case "Fahrenheit" ->  temperatura * 9/5 + 32 ;
+         
+               
+                    
+                    default -> 0.0;
+              };
+                   case "Fahrenheit" -> switch (unidadSalida) {
+          case "Kelvin" -> (temperatura - 32) * 5/9 + 273.15;
+          case "Celsius" -> (temperatura - 32) * 5/9 ;
+          
+              default ->0.0;
+        };
+                            
+         default ->0.0;
+         
+         };
+             
+    
+          }
+      return resultado;         
+         }
     public Temperatura() {
         initComponents();
     }
@@ -174,8 +210,32 @@ public class Temperatura extends javax.swing.JPanel {
 
     private void boton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton1ActionPerformed
 
-     
-        
+        // Obtén la unidad de entrada seleccionada
+        String unidadEntrada = (String) comboB3.getSelectedItem();
+        String inputText = R2.getText().trim(); // Obtén el texto del JTextField y elimina espacios en blanco
+
+        if (inputText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingresa un valor válido.", "VALOR VACÍO", JOptionPane.ERROR_MESSAGE);
+        } else {
+            double masa = Double.parseDouble(inputText);
+
+            String unidadSalida = (String) comboB4.getSelectedItem();
+
+            if (unidadEntrada.equals(unidadSalida)) {
+                JOptionPane.showMessageDialog(null, "Elige una unidad diferente.", "UNIDAD IGUAL", JOptionPane.ERROR_MESSAGE);
+            } else {
+                double resultado = convertirTemperatura(unidadEntrada, unidadSalida, masa);
+
+                String resultadoFormateado = esNumeroEntero(resultado) ? String.format("%,.0f", resultado) : String.format("%,.3f", resultado);
+
+                RR2.setText("" + resultadoFormateado);
+            }
+        }
+        }
+        // Método para verificar si un número es entero
+        private boolean esNumeroEntero(double numero) {
+            return numero % 1 == 0;
+
     }//GEN-LAST:event_boton1ActionPerformed
 
 
